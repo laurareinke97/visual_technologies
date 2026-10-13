@@ -96,7 +96,7 @@ const disc = new SpritePlayer({
   cols: 6,
   onFrame: (i) => {
     $("disc-status").textContent =
-      "Drehwinkel " + i * DISC_STEP_DEG + "° (Bild " + (i + 1) + " von " + DISC_FRAMES + ")";
+        "Drehwinkel " + i * DISC_STEP_DEG + "° (Bild " + (i + 1) + " von " + DISC_FRAMES + ")";
   },
 });
 
@@ -166,9 +166,9 @@ function fail(statusId, err) {
 }
 
 disc.load()
-  .then(() => { btnLeft.disabled = btnRight.disabled = btnAuto.disabled = false; })
-  .catch((err) => fail("disc-status", err));
+    .then(() => { btnLeft.disabled = btnRight.disabled = btnAuto.disabled = false; })
+    .catch((err) => fail("disc-status", err));
 
 bunny.load()
-  .then(() => { btnBunny.disabled = false; })
-  .catch((err) => fail("bunny-status", err));
+    .then(() => { btnBunny.disabled = false; })
+    .catch((err) => fail("bunny-status", err));

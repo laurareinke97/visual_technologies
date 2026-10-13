@@ -7,74 +7,60 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="page-head">
-    <h1>Interaktiv animierte Scheibe</h1>
-    <p>Eine Rotation aus 24 Einzelbildern. Jedes Bild zeigt die Scheibe 15° weiter gedreht und wird in einem <code>&lt;img&gt;</code>-Element eingeblendet.</p>
-  </header>
+<h1>Interaktiv animierte Scheibe</h1>
+<p class="intro">Die Drehung besteht aus 24 Einzelbildern (je 15° weiter). Sie liegen in einem Sprite-Sheet und werden in einem img-Element ausgetauscht.</p>
 
-  <main>
-    <section class="card" aria-labelledby="disc-title">
-      <h2 id="disc-title">Scheibe</h2>
-      <div class="stage">
-        <div class="viewport" id="disc-viewport" role="img" aria-label="Drehende bunte Scheibe">
-          <img id="disc-img" alt="" draggable="false">
-        </div>
+<div class="row">
+  <section>
+    <h2 id="disc-title">Scheibe</h2>
+    <div class="stage">
+      <div class="viewport" id="disc-viewport" role="img" aria-label="Drehende bunte Scheibe">
+        <img id="disc-img" alt="" draggable="false">
       </div>
+    </div>
+    <p class="readout" id="disc-status" aria-live="polite">Bilder werden geladen …</p>
 
-      <p class="readout" id="disc-status" aria-live="polite">Bilder werden geladen …</p>
+    <div class="controls">
+      <button type="button" id="btn-left" disabled><span>Links</span> (L)</button>
+      <button type="button" id="btn-right" disabled><span>Rechts</span> (R)</button>
+      <button type="button" id="btn-auto" aria-pressed="false" disabled><span>Automatisch drehen</span> (A)</button>
+    </div>
 
-      <div class="controls">
-        <button type="button" id="btn-left" disabled><kbd>L</kbd> Links drehen</button>
-        <button type="button" id="btn-auto" aria-pressed="false" disabled><kbd>A</kbd> <span>Automatisch drehen</span></button>
-        <button type="button" id="btn-right" disabled><kbd>R</kbd> Rechts drehen</button>
-      </div>
-
-      <label class="speed">
-        Geschwindigkeit der automatischen Drehung
-        <input type="range" id="disc-speed" min="2" max="30" value="12">
-        <output id="disc-speed-out" for="disc-speed">12 Bilder/s</output>
-      </label>
-    </section>
-
-    <section class="card" aria-labelledby="bunny-title">
-      <h2 id="bunny-title">Hüpfender Hase</h2>
-      <div class="stage">
-        <div class="viewport" id="bunny-viewport" role="img" aria-label="Hüpfender Hase">
-          <img id="bunny-img" alt="" draggable="false">
-        </div>
-      </div>
-
-      <p class="readout" id="bunny-status" aria-live="polite">Bilder werden geladen …</p>
-
-      <div class="controls">
-        <button type="button" id="btn-bunny" aria-pressed="false" disabled><kbd>H</kbd> <span>Hase hüpfen lassen</span></button>
-      </div>
-    </section>
-  </main>
-
-  <section class="notes" aria-labelledby="notes-title">
-    <h2 id="notes-title">Benutzungshinweise</h2>
-    <ul>
-      <li><kbd>L</kbd> dreht die Scheibe um ein Bild (15°) nach links, <kbd>R</kbd> um ein Bild nach rechts. Pro Tastendruck gibt es genau einen Schritt, gedrückt halten wiederholt ihn nicht.</li>
-      <li><kbd>A</kbd> startet die automatische Drehung und stoppt sie beim nächsten Druck. Die Drehrichtung ist die des zuletzt benutzten Schritts (anfangs rechts).</li>
-      <li><kbd>H</kbd> startet bzw. stoppt den hüpfenden Hasen.</li>
-      <li>Alle Funktionen gibt es auch als Buttons, die sich per Tastatur (Tab, Enter oder Leertaste) bedienen lassen.</li>
-    </ul>
-
-    <h2>Technik</h2>
-    <ul>
-      <li>Jede Animation ist ein einzelnes Sprite-Sheet (PNG mit Transparenz). JavaScript lädt es vor und verschiebt es im <code>&lt;img&gt;</code> hinter einem Fenster mit <code>overflow: hidden</code>, sodass immer genau ein Einzelbild sichtbar ist. Es wird kein Canvas und kein WebGL verwendet.</li>
-      <li>Die automatische Animation läuft über <code>requestAnimationFrame</code> mit zeitbasierter Bildfolge, also unabhängig von der Bildwiederholrate des Monitors.</li>
-      <li>Schlägt das Laden eines Sprite-Sheets fehl, erscheint eine Fehlermeldung und die Bedienelemente bleiben deaktiviert.</li>
-    </ul>
-
-    <h2>Quellen</h2>
-    <ul>
-      <li>Scheibe und Hase sind selbst erstellt. Die Einzelbilder wurden mit einem eigenen Python-Skript (Pillow) gezeichnet, siehe <code>tools/generate_sprites.py</code>. Es wurde kein fremdes Bildmaterial verwendet.</li>
-      <li>Aufgabenstellung: Lehrveranstaltung der BHT Berlin, „Interaktiv animierte Scheibe“.</li>
-    </ul>
+    <label class="speed" for="disc-speed">Tempo:
+      <input type="range" id="disc-speed" min="2" max="30" value="12">
+      <output id="disc-speed-out" for="disc-speed">12 Bilder/s</output>
+    </label>
   </section>
 
-  <script src="script.js"></script>
+  <section>
+    <h2 id="bunny-title">Hase</h2>
+    <div class="stage">
+      <div class="viewport" id="bunny-viewport" role="img" aria-label="Hüpfender Hase">
+        <img id="bunny-img" alt="" draggable="false">
+      </div>
+    </div>
+    <p class="readout" id="bunny-status" aria-live="polite">Bilder werden geladen …</p>
+
+    <div class="controls">
+      <button type="button" id="btn-bunny" aria-pressed="false" disabled><span>Hase hüpfen lassen</span> (H)</button>
+    </div>
+  </section>
+</div>
+
+<h2>Benutzung</h2>
+<ul>
+  <li>L / R: Scheibe einen Schritt (15°) nach links bzw. rechts drehen. Pro Tastendruck ein Schritt.</li>
+  <li>A: Scheibe dreht sich automatisch, nochmal A hält sie an. Die Richtung ist die des letzten Schritts, am Anfang rechts.</li>
+  <li>H: Hase hüpft bzw. bleibt stehen.</li>
+  <li>Alles geht auch über die Buttons.</li>
+</ul>
+
+<h2>Umsetzung</h2>
+<p>Das Sprite-Sheet wird per JavaScript geladen und im img so verschoben, dass hinter einem Fenster mit overflow: hidden immer genau ein Bild zu sehen ist. Die automatische Animation läuft mit requestAnimationFrame. Wenn ein Sheet nicht lädt, steht eine Fehlermeldung unter der Grafik.</p>
+
+<h2>Quellen</h2>
+<p>Die Grafiken (Scheibe und Hase) wurden mit Hilfe von Claude erstellt. Mit Hilfe von Claude wurde ein Python-Skript mit der Bibliothek Pillow geschrieben, das die Einzelbilder zeichnet und als Sprite-Sheet speichert (siehe tools/generate_sprites.py). </p>
+
+<script src="script.js"></script>
 </body>
 </html>
